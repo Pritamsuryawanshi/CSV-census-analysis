@@ -50,10 +50,4 @@ public class CensusAnalyser {
         CsvToBean<E> csvToBean = csvToBeanBuilder.build();
         return csvToBean.iterator();
     }
-
-        /*private <E> int getCount (Iterable<E> iterator) {
-            Iterable<E> csvIterable = () -> iterator;
-            int stateCodeCount = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            return stateCodeCount;
-        }*/
 }
