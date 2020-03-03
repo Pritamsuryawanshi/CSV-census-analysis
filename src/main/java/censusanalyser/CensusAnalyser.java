@@ -15,9 +15,7 @@ public class CensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             Iterator<IndiaCensusCSV> censusCSVIterator = getCSVIterator(reader, IndiaCensusCSV.class);
-            Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
-            int numOfEnteries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            return numOfEnteries;
+            return getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -26,12 +24,16 @@ public class CensusAnalyser {
         }
     }
 
+    private <E> int getCount(Iterator<E> iterator) {
+        Iterable<E> csvIterable = () -> iterator;
+        int numOfEnteries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+        return numOfEnteries;
+    }
+
     public int loadIndianStateCode(String indiaStateCsvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(indiaStateCsvFilePath))) {
             Iterator<IndiaStateCodeCSV> censusCSVIterator = getCSVIterator(reader, IndiaStateCodeCSV.class);
-            Iterable<IndiaStateCodeCSV> csvIterable = () -> censusCSVIterator;
-            int stateCodeCount = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            return stateCodeCount;
+           return getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -49,4 +51,9 @@ public class CensusAnalyser {
         return csvToBean.iterator();
     }
 
+        /*private <E> int getCount (Iterable<E> iterator) {
+            Iterable<E> csvIterable = () -> iterator;
+            int stateCodeCount = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+            return stateCodeCount;
+        }*/
 }
