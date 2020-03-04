@@ -1,5 +1,6 @@
 package censusanalyser;
 
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -37,5 +38,18 @@ public class CensusAnalyserTest {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
         int stateCodeCount = censusAnalyser.loadIndianStateCode(INDIA_STATE_CSV_FILE_PATH);
         Assert.assertEquals(37, stateCodeCount);
+    }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedByState_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Andhra Pradesh", censusCSV[0].state);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
     }
 }
