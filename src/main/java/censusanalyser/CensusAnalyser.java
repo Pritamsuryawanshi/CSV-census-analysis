@@ -1,9 +1,7 @@
 package censusanalyser;
-
 import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -20,28 +18,14 @@ public class CensusAnalyser {
         this.censusMap = new HashMap<>();
     }
 
-    public int loadUSCensusData(String csvFilePath) {
-        return new LoadCensusData().loadCensusData(csvFilePath, USCensusCSV.class).size();
-    }
-
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        censusMap = new LoadCensusData().loadCensusData(csvFilePath, IndiaCensusCSV.class);
+    public int loadUSCensusData(String... csvFilePath) {
+        censusMap = new LoadCensusData().loadCensusData(USCensusCSV.class, csvFilePath);
         return censusMap.size();
     }
 
-    public int loadIndianStateCode(String stateCSVIterator) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(stateCSVIterator))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaStateCodeCSV> CSVStateIterator = csvBuilder.getCSVIterator(reader, IndiaStateCodeCSV.class);
-            Iterable<IndiaStateCodeCSV> csvIterable = () -> CSVStateIterator;
-            StreamSupport.stream(csvIterable.spliterator(), false)
-                    .filter(csvState -> censusMap.get(csvState.state) != null)
-                    .forEach(csvState -> censusMap.get(csvState.state).stateCode = csvState.stateCode);
-            return censusMap.size();
-        } catch (IOException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        }
+    public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
+        censusMap = new LoadCensusData().loadCensusData(IndiaCensusCSV.class, csvFilePath);
+        return censusMap.size();
     }
 
     public String getStateWiseSortedCensusData(String csvFilePath) throws CensusAnalyserException {
@@ -66,6 +50,4 @@ public class CensusAnalyser {
             }
         }
     }
-
-
 }

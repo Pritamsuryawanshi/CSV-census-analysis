@@ -12,13 +12,11 @@ public class CensusAnalyserTest {
     private static final String INDIA_STATE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String US_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
 
-
-
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_STATE_CSV_FILE_PATH);
             Assert.assertEquals(29, numOfRecords);
         } catch (CensusAnalyserException e) {
         }
@@ -37,14 +35,6 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenIndiaStateCSV_ShouldReturnExactCount() {
-        CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-        int stateCodeCount = censusAnalyser.loadIndianStateCode(INDIA_STATE_CSV_FILE_PATH);
-        Assert.assertEquals(29, stateCodeCount);
-    }
-
-    @Test
     public void givenIndianCensusData_WhenSortedByState_ShouldReturnSortedResult() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -57,7 +47,7 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenUSCensusData_ShouldReturnCorrectRecords(){
+    public void givenUSCensusData_ShouldReturnCorrectRecords() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
         int USCensusCount = censusAnalyser.loadUSCensusData(US_CSV_FILE_PATH);
         Assert.assertEquals(51, USCensusCount);
