@@ -89,5 +89,54 @@ public class CensusAnalyserTest {
         }
     }
 
+    @Test
+    public void givenUSCensusData_WhenSortedByState_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US, US_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(SortField.STATE);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Alabama", censusCSV[censusCSV.length - 1].state);
+        } catch (CensusAnalyserException e) {
+        }
+    }
+
+
+
+    @Test
+    public void givenUSCensusData_WhenSortedByPopulation_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US, US_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(SortField.POPULATION);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals(37253956, censusCSV[0].population);
+        } catch (CensusAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByPopulationDensity_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US, US_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(SortField.POPULATION_DENSITY);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals(3805.61, censusCSV[0].densityPerSqKm, 0.0);
+        } catch (CensusAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByArea_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US, US_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData(SortField.TOTAL_AREA);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals(1723338.01, censusCSV[0].totalArea, 0.0);
+        } catch (CensusAnalyserException e) {
+        }
+    }
 
 }
