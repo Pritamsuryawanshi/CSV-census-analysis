@@ -2,11 +2,9 @@ package censusanalyser;
 
 public class CensusDTO {
 
-    public long densityPerSqKm;
-    public long areaInSqKm;
-    public long population;
     public double totalArea;
-    public double populationDensity;
+    public int population;
+    public double densityPerSqKm;
     public String state;
     public String stateId;
     public String stateCode;
@@ -14,7 +12,7 @@ public class CensusDTO {
     public CensusDTO(IndiaCensusCSV indiaCensusCSV) {
         state = indiaCensusCSV.state;
         population = indiaCensusCSV.population;
-        areaInSqKm = indiaCensusCSV.areaInSqKm;
+        totalArea = indiaCensusCSV.totalArea;
         densityPerSqKm = indiaCensusCSV.densityPerSqKm;
     }
 
@@ -23,8 +21,6 @@ public class CensusDTO {
         stateId = usCensusCSV.stateId;
         population = usCensusCSV.population;
         totalArea = usCensusCSV.totalArea;
-        populationDensity = usCensusCSV.populationDensity;
+        densityPerSqKm = usCensusCSV.densityPerSqKm;
     }
-
-
 }

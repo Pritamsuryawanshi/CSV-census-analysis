@@ -16,8 +16,7 @@ public class USCensusCSV {
     public double totalArea;
 
     @CsvBindByName(column = "Population Density", required = true)
-    public double populationDensity;
-
+    public double densityPerSqKm;
 
     @Override
     public String toString() {
@@ -26,7 +25,7 @@ public class USCensusCSV {
                 ", stateId='" + stateId + '\'' +
                 ", population=" + population +
                 ", totalArea=" + totalArea +
-                ", populationDensity=" + populationDensity +
+                ", populationDensity=" + densityPerSqKm +
                 '}';
     }
 }
