@@ -20,7 +20,6 @@ public class OpenCSVBuilder<E> implements ICSVBuilder {
 
     private CsvToBean getCSVtoBean(Reader reader, Class csvClass) {
         try {
-         //   ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(csvClass);
             csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);

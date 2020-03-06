@@ -13,7 +13,16 @@ import java.util.stream.StreamSupport;
 public class LoadCensusData {
 
 
-    public <E> Map<String, CensusDTO> loadCensusData(Class<E> CensusCSVClass, String... csvFilePath) {
+    public Map<String, CensusDTO> loadCensusData(CensusAnalyser.Country country, String... csvFilePath) {
+        if (country.equals(CensusAnalyser.Country.INDIA)) {
+            return this.loadCensusData(IndiaCensusCSV.class, csvFilePath);
+        } else if (country.equals(CensusAnalyser.Country.US)) {
+            return this.loadCensusData(USCensusCSV.class, csvFilePath);
+        } else
+            throw new CensusAnalyserException("INVALID COUNTRY", CensusAnalyserException.ExceptionType.INVALID_COUNTRY);
+    }
+
+    private <E> Map<String, CensusDTO> loadCensusData(Class<E> CensusCSVClass, String... csvFilePath) {
         Map<String, CensusDTO> censusMap = new HashMap<>();
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]))) {
@@ -24,7 +33,8 @@ public class LoadCensusData {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(IndiaCensusCSV.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDTO(censusCSV)));
-            } else if (CensusCSVClass.getName().equals("censusanalyser.USCensusCSV")) {
+            }
+            if (CensusCSVClass.getName().equals("censusanalyser.USCensusCSV")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(USCensusCSV.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDTO(censusCSV)));
@@ -40,6 +50,7 @@ public class LoadCensusData {
         }
     }
 
+
     private int loadIndianStateCode(Map<String, CensusDTO> censusMap, String stateCSVIterator) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(stateCSVIterator))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
@@ -54,5 +65,5 @@ public class LoadCensusData {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
-
 }
+

@@ -14,19 +14,23 @@ public class CensusAnalyser {
     List<CensusDTO> censusDTOList = null;
     Map<String, CensusDTO> censusMap = null;
 
+    public enum Country {
+        INDIA,US;
+    }
+
     public CensusAnalyser() {
         this.censusMap = new HashMap<>();
     }
 
-    public int loadUSCensusData(String... csvFilePath) {
-        censusMap = new LoadCensusData().loadCensusData(USCensusCSV.class, csvFilePath);
+    public int loadCensusData(Country country,String... csvFilePath) {
+        censusMap = new LoadCensusData().loadCensusData(country, csvFilePath);
         return censusMap.size();
     }
 
-    public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
+   /* public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
         censusMap = new LoadCensusData().loadCensusData(IndiaCensusCSV.class, csvFilePath);
         return censusMap.size();
-    }
+    }*/
 
     public String getStateWiseSortedCensusData(String csvFilePath) throws CensusAnalyserException {
         if (censusDTOList == null || censusDTOList.size() == 0) {
