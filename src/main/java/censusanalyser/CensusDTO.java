@@ -6,7 +6,7 @@ public class CensusDTO {
     public int population;
     public double densityPerSqKm;
     public String state;
-    public String stateId;
+ /*   public String stateId;*/
     public String stateCode;
 
     public CensusDTO(IndiaCensusCSV indiaCensusCSV) {
@@ -18,9 +18,13 @@ public class CensusDTO {
 
     public CensusDTO(USCensusCSV usCensusCSV) {
         state = usCensusCSV.state;
-        stateId = usCensusCSV.stateId;
+        stateCode = usCensusCSV.stateCode;
         population = usCensusCSV.population;
         totalArea = usCensusCSV.totalArea;
         densityPerSqKm = usCensusCSV.densityPerSqKm;
+    }
+
+    public CensusDTO(IndiaStateCodeCSV indiaStateCodeCSV) {
+        stateCode = indiaStateCodeCSV.stateCode;
     }
 }

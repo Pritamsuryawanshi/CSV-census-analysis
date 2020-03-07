@@ -21,6 +21,8 @@ public class CensusAnalyser {
         this.sortMap.put(SortField.POPULATION, Comparator.comparing(census -> census.population));
         this.sortMap.put(SortField.POPULATION_DENSITY, Comparator.comparing(census -> census.densityPerSqKm));
         this.sortMap.put(SortField.TOTAL_AREA, Comparator.comparing(census -> census.totalArea));
+        this.sortMap.put(SortField.STATE_CODE, Comparator.comparing(census -> census.stateCode));
+
     }
 
 
